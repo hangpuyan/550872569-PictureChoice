@@ -1,0 +1,151 @@
+//
+//  PrefixHeader.pch
+//
+//
+//  Created by Yan on 16/4/28.
+//
+//
+// 保证 #ifdef 中的宏定义只会在 OC 的代码中被引用
+// 一旦引入 C/C++ 的代码或者框架，就会出错！
+
+#ifdef DEBUG
+#   define NSLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#   define NSError(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#   define NSDebug(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#   define NSCont(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+
+#else
+#   define NSError(...)
+#   define NSDebug(...)
+#   define NSCont(...)
+#   define NSLog(...)
+#endif
+//只要添加啦这个宏 就不需要带mas_前缀
+#define MAS_SHORTHAND
+/**
+ *  只要添加啦这个宏，equal To 就等价于mas_equalTo
+ *  Masonry使用的宏，作用是为了让equalTo实现mas_equalTo的功能
+ *  mas_equalTo有自动包装功能，比如自动将20包装为@20
+ *  equalTo没有自动包装功能
+ *  该宏一定要添加在#import "Masonry.h"之前
+ */
+//自动布局第三方框架Masonry
+#import "Masonry.h"
+////网络请求框架
+//#import <AFNetworking.h>
+////工具
+//#import <HMObjcSugar.h>
+////加载网络指示器框架
+//#import <SVProgressHUD.h>
+////短信验证
+//#import <SMS_SDK/SMSSDK.h>
+
+//#define COLOR_TEXT_A          [UIColor colorWithRed:0x44/255.0f green:0x44/255.0f blue:0x44/255.0f alpha:1.0f]
+#define COLOR_TEXT_A          [UIColor whiteColor]
+#define COLOR_TEXT_B          [UIColor colorWithRed:169/255.0f green:169/255.0f blue:169/255.0f alpha:1.0f]
+#define COLOR_TEXT_C          [UIColor colorWithRed:150.0f/255.0f green:150.0f/255.0f blue:150.0f/255.0f alpha:1.0f]
+#define COLOR_TEXT_D          [UIColor colorWithRed:232/255.0f green:10/255.0f blue:30/255.0f alpha:1.0f]
+
+#if __has_feature(objc_arc)
+#define kBLOCK_SELF(type) __weak type *block_self=self;
+#else
+#define kBLOCK_SELF(type) __block type *block_self=self;
+#endif
+
+#define kSCREEN_HEIGHT   ([[UIScreen mainScreen] bounds].size.height)
+#define kSCREEN_WIDTH    ([[UIScreen mainScreen] bounds].size.width)
+
+#define kAppDelegate ((AppDelegate *)[[UIApplication sharedApplication] delegate])
+
+#define kUSER_DEFAULT [NSUserDefaults standardUserDefaults]
+
+
+#define iPhone4s ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)
+
+#define iPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
+
+#define iPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)
+
+#define iPhone6Plus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242, 2208), [[UIScreen mainScreen] currentMode].size) : NO)
+
+#define IOS7_OR_LATER   ( [[[UIDevice currentDevice] systemVersion] compare:@"7.0"] != NSOrderedAscending )
+#define IOS8_OR_LATER   ( [[[UIDevice currentDevice] systemVersion] compare:@"8.0"] != NSOrderedAscending )
+
+
+//像素对应的字体大小
+#define kSysFont(f) [UIFont systemFontOfSize:f]
+#define kBoldFont(f) [UIFont boldSystemFontOfSize:f]
+#define FONTFromePX(PX) [UIFont systemFontOfSize:(PX * 0.5)]
+#define kFONT_18PX [UIFont systemFontOfSize:11]
+#define kFONT_20PX [UIFont systemFontOfSize:12]
+#define kFONT_22PX [UIFont systemFontOfSize:13]
+#define kFONT_24PX [UIFont systemFontOfSize:14]
+#define kFONT_26PX [UIFont systemFontOfSize:15]
+#define kFONT_28PX [UIFont systemFontOfSize:16]
+#define kFONT_30PX [UIFont systemFontOfSize:17]
+#define kFONT_32PX [UIFont systemFontOfSize:17.5]
+#define kFONT_34PX [UIFont systemFontOfSize:18]
+#define kFONT_36PX [UIFont systemFontOfSize:19]
+
+//ios系统版本
+#define iOS9x [[[UIDevice currentDevice] systemVersion] floatValue] >=9.0f
+#define iOS8x [[[UIDevice currentDevice] systemVersion] floatValue] >=8.0f && ([[[UIDevice currentDevice] systemVersion] floatValue] < 9.0f)
+#define iOS7x ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0f) && ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.0f)
+#define iOS6x [[[UIDevice currentDevice] systemVersion] floatValue] < 7.0f
+#define iOSNot6x [[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0f
+#define IOS7 [[UIDevice currentDevice] systemVersion].floatValue>=7
+
+//** 加载xib
+#define kLoadNib(x) [[NSBundle mainBundle] loadNibNamed:@(x) owner:nil options:nil][0]
+//** 沙盒路径
+#define kPATH_OF_APP_HOME NSHomeDirectory() #define PATH_OF_TEMP NSTemporaryDirectory()
+#define kPATH_OF_DOCUMENT [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
+
+//** 获得当前的 年 月 日 时 分 秒
+#define kCurrentSec [[NSCalendar currentCalendar] component:NSCalendarUnitSecond fromDate:[NSDate date]]
+#define kCurrentMin [[NSCalendar currentCalendar] component:NSCalendarUnitMinute fromDate:[NSDate date]]
+#define kCurrentHour [[NSCalendar currentCalendar] component:NSCalendarUnitHour fromDate:[NSDate date]]
+#define kCurrentDay [[NSCalendar currentCalendar] component:NSCalendarUnitDay fromDate:[NSDate date]]
+#define kCurrentMonth [[NSCalendar currentCalendar] component:NSCalendarUnitMonth fromDate:[NSDate date]]
+#define kCurrentYear [[NSCalendar currentCalendar] component:NSCalendarUnitYear fromDate:[NSDate date]]
+// 系统控件默认高度 #define kStatusBarHeight (20.f)
+#define kTopBarHeight (44.f)
+#define kBottomBarHeight (49.f)
+#define kCellDefaultHeight (44.f)
+#define kEnglishKeyboardHeight (216.f)
+#define kChineseKeyboardHeight (252.f)
+
+// PNG JPG 图片路径
+#define kGetImagePathFromBundle(NAME) [[NSBundle mainBundle] pathForResource:[NSString stringWithUTF8String:NAME] ofType:nil]
+#define kGetExtPathFromBundle(NAME, EXT) [[NSBundle mainBundle] pathForResource:(NAME) ofType:(EXT)]
+
+#define MAS_SHORTHAND_GLOBALS
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#endif /* PrefixHeader_pch */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
